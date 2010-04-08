@@ -29,8 +29,9 @@
 #define  TX   4
 
 
-#define rxFlag _events.BITS.bit0
-#define txFlag _events.BITS.bit0
+#define rxFlag  _events.BITS.bit0
+#define txFlag  _events.BITS.bit1
+#define timerOF _events.BITS.bit2
 
 #define status _status.BYTE
 #define events _events.BYTE
