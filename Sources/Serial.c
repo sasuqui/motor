@@ -39,10 +39,10 @@ interrupt VectorNumber_SCIReceive void SCI_Rx_Int(void){
 
 
 
-interrupt VectorNumber_SCITransmit void SCI_Tx_Int(void){
+interrupt VectorNumber_SCITransmit void SCI_Int(void){
 
   (void)SCS1;        //RECONOCE LA INTERRUPCION
-  if (Fifo_Tx_Get(&SCDR)==0)
+  if (Fifo_Get(&SCDR)==0)
 	  SCC2_SCTIE = 0;         
 }
 
@@ -55,7 +55,20 @@ void RecibirDato(void){
     
       if(dato==MOTOR_ID){
       
-      status=RX;
+        status=RX;
+        
+      }
+    
+      break;
+      
+    case SELECTED:
+    
+      if(dato==READMOT){ //SENSE QUESTION
+        
+        //queue enable variator response bit and timer at rx complete
+        
+        (void)Fifo_Put(dato);
+        status=RX;
         
       }
     
@@ -63,7 +76,7 @@ void RecibirDato(void){
       
     case RX:
     
-      Fifo_Tx_Put(dato);
+      Fifo_Put(dato);
       
       if(dato==CR){
       
@@ -72,7 +85,7 @@ void RecibirDato(void){
       }else{
       
         //FEED FIFO
-        (void)Fifo_Tx_Put(dato);      
+        (void)Fifo_Put(dato);      
         
       }
     

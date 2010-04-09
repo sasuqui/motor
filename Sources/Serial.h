@@ -24,9 +24,10 @@
 
 #define  CLEAR_SCREEN  12
 
-#define  IDLE 1
-#define  RX   2
-#define  TX   4
+#define  IDLE     1
+#define  SELECTED 2
+#define  RX       4
+#define  TX       8
 
 
 #define rxFlag  _events.BITS.bit0
