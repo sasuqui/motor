@@ -13,12 +13,14 @@ flagByte _events, _status;
 void SCI_Init(void){  //frecuencia reloj de bus 2.4576 MHz
   CONFIG2_SCIBDSRC=1; //usar el bus interno para la comunicacion serial
   SCBR_SCR=2;         //rata de baudios dividida por 4 - 9600bps
-  SCC1_PEN=1;          //habilita paridad
+  SCC1_M=1;           //logitud de caracteres de 9 bits, 8 datos 1 para paridad
+  SCC1_PEN=1;         //habilita paridad
   SCC1_PTY=1;         //paridad impar
   SCC1_ENSCI=1;       //habilita transmision serial PTB2 y PTB3
   SCC2_TE=1;          //Habilita Tx
   SCC2_RE=1;          //Habilita Rx
   SCC2_SCRIE=1;       //HABILTA INTERRUPCION POR RECIBIR DATO
+  
   //SCC2_SCTIE=1;       //habilita intrrupcion Tx
   
   status=IDLE;

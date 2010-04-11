@@ -35,8 +35,6 @@ byte Fifo_Put (byte c)
 		else
 			PutPtr++;
 		
-		//ENABLE_INT_TX();    // Enable Interruptions of the TX
-		
 		return(1);	
 	}
 }

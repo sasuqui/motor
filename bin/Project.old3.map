@@ -28,7 +28,7 @@ _startupData is allocated at 0x8F5 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x100     28
-  _Copy    *toCopyDownBeg 0xB10
+  _Copy    *toCopyDownBeg 0xB14
 } _startupData;
 
 *********************************************************************************************
@@ -37,8 +37,8 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                            149     R      0x860      0x8F4   ROM
 .startData                        14     R      0x8F5      0x902   ROM
-.text                            525     R      0x903      0xB0F   ROM
-.copy                              2     R      0xB10      0xB11   ROM
+.text                            529     R      0x903      0xB13   ROM
+.copy                              2     R      0xB14      0xB15   ROM
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg0
 .abs_section_1                     1   N/I        0x1        0x1   .absSeg1
 .abs_section_2                     1   N/I        0x2        0x2   .absSeg2
@@ -128,7 +128,7 @@ Section Name                    Size  Type     From       To       Segment
 .vectSeg83_vect                    2     R     0xFFFE     0xFFFF   .vectSeg83
 
 Summary of section sizes per section type:
-READ_ONLY (R):         2BA (dec:      698)
+READ_ONLY (R):         2BE (dec:      702)
 READ_WRITE (R/W):       6C (dec:      108)
 NO_INIT (N/I):          5B (dec:       91)
 
@@ -167,12 +167,12 @@ MODULE:                 -- MC68HC908AP16.C.o --
      _SPCR                                       10       1       1       0   .abs_section_10
      _SPSCR                                      11       1       1       0   .abs_section_11
      _SPDR                                       12       1       1       0   .abs_section_12
-     _SCC1                                       13       1       1       4   .abs_section_13
+     _SCC1                                       13       1       1       3   .abs_section_13
      _SCC2                                       14       1       1       5   .abs_section_14
      _SCC3                                       15       1       1       0   .abs_section_15
-     _SCS1                                       16       1       1       2   .abs_section_16
+     _SCS1                                       16       1       1       3   .abs_section_16
      _SCS2                                       17       1       1       0   .abs_section_17
-     _SCDR                                       18       1       1       2   .abs_section_18
+     _SCDR                                       18       1       1       3   .abs_section_18
      _SCBR                                       19       1       1       2   .abs_section_19
      _KBSCR                                      1A       1       1       0   .abs_section_1a
      _KBIER                                      1B       1       1       0   .abs_section_1b
@@ -255,21 +255,22 @@ MODULE:                 -- fifo.c.o --
      PutPtr                                     117       2       2      13   .common     
 MODULE:                 -- Serial.c.o --
 - PROCEDURES:
-     SCI_Init                                   A4B      1E      30       1   .text       
-     SCI_Rx_Int                                 A69      11      17       1   .text       
-     SCI_Tx_Int                                 A7A      17      23       1   .text       
-     RecibirDato                                A91      5D      93       1   .text       
+     SCI_Init                                   A4B      1C      28       1   .text       
+     SCI_Rx_Int                                 A67      11      17       1   .text       
+     SCI_Tx_Int                                 A78      17      23       2   .text       
+     RecibirDato                                A8F      59      89       1   .text       
+     sendChar                                   AE8       A      10       1   .text       
 - VARIABLES:
      j                                          100       1       1       3   .bss        
      _Vector_13                                FFE4       2       2       0   .abs_section_ffe4
      _Vector_14                                FFE2       2       2       0   .abs_section_ffe2
-     dato                                       119       1       1       6   .common     
+     dato                                       119       1       1       7   .common     
      _events                                    11A       1       1      10   .common     
-     _status                                    11B       1       1       4   .common     
+     _status                                    11B       1       1       3   .common     
 MODULE:                 -- timer.c.o --
 - PROCEDURES:
-     TimerInit                                  AEE      12      18       1   .text       
-     TIM1OV_ISR                                 B00      10      16       1   .text       
+     TimerInit                                  AF2      12      18       1   .text       
+     TIM1OV_ISR                                 B04      10      16       1   .text       
 - VARIABLES:
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
 
@@ -282,7 +283,7 @@ MODULE STATISTIC
   MC68HC908AP16.C.o                           91      0      0
   Start08.c.o                                  0    149      0
   fifo.c.o                                    24    180      0
-  Serial.c.o                                   4    163      4
+  Serial.c.o                                   4    167      4
   timer.c.o                                    0     34      2
   other                                       80     16      2
 
@@ -291,7 +292,7 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   PortInit main _ICMP _Jump_Table_Header_Offset Fifo_Init Fifo_Put Fifo_Get 
-  SCI_Init SCI_Rx_Int SCI_Tx_Int RecibirDato TimerInit TIM1OV_ISR 
+  SCI_Init SCI_Rx_Int SCI_Tx_Int RecibirDato sendChar TimerInit TIM1OV_ISR 
 SECTION: ".bss"
   j 
 SECTION: ".init"
@@ -481,12 +482,12 @@ OBJECT LIST SORTED BY ADDRESS
      _SPCR                                       10       1       1       0   .abs_section_10
      _SPSCR                                      11       1       1       0   .abs_section_11
      _SPDR                                       12       1       1       0   .abs_section_12
-     _SCC1                                       13       1       1       4   .abs_section_13
+     _SCC1                                       13       1       1       3   .abs_section_13
      _SCC2                                       14       1       1       5   .abs_section_14
      _SCC3                                       15       1       1       0   .abs_section_15
-     _SCS1                                       16       1       1       2   .abs_section_16
+     _SCS1                                       16       1       1       3   .abs_section_16
      _SCS2                                       17       1       1       0   .abs_section_17
-     _SCDR                                       18       1       1       2   .abs_section_18
+     _SCDR                                       18       1       1       3   .abs_section_18
      _SCBR                                       19       1       1       2   .abs_section_19
      _KBSCR                                      1A       1       1       0   .abs_section_1a
      _KBIER                                      1B       1       1       0   .abs_section_1b
@@ -541,9 +542,9 @@ OBJECT LIST SORTED BY ADDRESS
      Fifo                                       101      14      20       8   .common     
      GetPtr                                     115       2       2      13   .common     
      PutPtr                                     117       2       2      13   .common     
-     dato                                       119       1       1       6   .common     
+     dato                                       119       1       1       7   .common     
      _events                                    11A       1       1      10   .common     
-     _status                                    11B       1       1       4   .common     
+     _status                                    11B       1       1       3   .common     
      loadByte                                   860      17      23       5   .init       
      Init                                       877      75     117       1   .init       
      _Startup                                   8EC       9       9       0   .init       
@@ -554,12 +555,13 @@ OBJECT LIST SORTED BY ADDRESS
      Fifo_Init                                  997      11      17       2   .text       
      Fifo_Put                                   9A8      5A      90       2   .text       
      Fifo_Get                                   A02      49      73       1   .text       
-     SCI_Init                                   A4B      1E      30       1   .text       
-     SCI_Rx_Int                                 A69      11      17       1   .text       
-     SCI_Tx_Int                                 A7A      17      23       1   .text       
-     RecibirDato                                A91      5D      93       1   .text       
-     TimerInit                                  AEE      12      18       1   .text       
-     TIM1OV_ISR                                 B00      10      16       1   .text       
+     SCI_Init                                   A4B      1C      28       1   .text       
+     SCI_Rx_Int                                 A67      11      17       1   .text       
+     SCI_Tx_Int                                 A78      17      23       2   .text       
+     RecibirDato                                A8F      59      89       1   .text       
+     sendChar                                   AE8       A      10       1   .text       
+     TimerInit                                  AF2      12      18       1   .text       
+     TIM1OV_ISR                                 B04      10      16       1   .text       
      _SBSR                                     FE00       1       1       0   .abs_section_fe00
      _SRSR                                     FE01       1       1       0   .abs_section_fe01
      _SBFCR                                    FE03       1       1       0   .abs_section_fe03
@@ -598,7 +600,7 @@ RTSHC08.C.o (ansii.lib):
   _Search_Table_16_Offset _Search_Table_8_Addr _Search_Table_8_Offset _PUSH_CC 
   _POP_CC _CONV_FAR_TO_NEAR _CONV_FAR_TO_LINEAR _CONV_LINEAR_TO_FAR 
 Serial.c.o:
-  sendChar sendMessage 
+  sendMessage 
 NOT USED VARIABLES
 RTSHC08.C.o (ansii.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
@@ -608,7 +610,7 @@ Serial.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xB10 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xB14 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -626,8 +628,9 @@ Fifo_Get                  USES GetPtr PutPtr Fifo
 SCI_Init                  USES _CONFIG2 _SCBR _SCC1 _SCC2 _status 
 SCI_Rx_Int                USES _SCS1 _SCDR dato _events 
 SCI_Tx_Int                USES _SCS1 _SCDR Fifo_Get _SCC2 _events 
-RecibirDato               USES _status _Jump_Table_Header_Offset dato Fifo_Put 
-                                j _SCC2 Fifo_Init 
+RecibirDato               USES dato sendChar _status _Jump_Table_Header_Offset 
+                                Fifo_Put j _SCC2 SCI_Tx_Int Fifo_Init 
+sendChar                  USES _SCS1 _SCDR 
 TimerInit                 USES _T1SC _T1MOD 
 TIM1OV_ISR                USES _T1SC _events 
 _Vector_14                USES SCI_Tx_Int 
@@ -651,11 +654,17 @@ DEPENDENCY TREE
  |  |    
  |  +- RecibirDato         
  |     | 
+ |     +- sendChar            
+ |     |    
  |     +- _Jump_Table_Header_Offset
  |     |    
  |     +- Fifo_Put            
  |     |  | 
  |     |  +- _ICMP               
+ |     |       
+ |     +- SCI_Tx_Int          
+ |     |  | 
+ |     |  +- Fifo_Get            
  |     |       
  |     +- Fifo_Init            (see above)
  |        
@@ -673,10 +682,8 @@ DEPENDENCY TREE
       
  _Vector_14          
  | 
- +- SCI_Tx_Int          
-    | 
-    +- Fifo_Get            
-         
+ +- SCI_Tx_Int           (see above)
+    
  _Vector_7           
  | 
  +- TIM1OV_ISR          
@@ -688,5 +695,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 698
+Total size of all blocks to be downloaded: 702
 

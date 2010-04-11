@@ -5,6 +5,11 @@
 
 // Definiciones generales
 
+#define ENABLE_INT_TX() 	SCC2_SCTIE = 1
+#define DISABLE_INT_TX() 	SCC2_SCTIE = 0
+#define ENABLE_INT_RX() 	SCC2_SCRIE = 1
+#define DISABLE_INT_RX() 	SCC2_SCRIE = 0  
+
 #define MOTOR_ID 0x21 //valores que no estaran en las tramas para los variadores 0x21 - 0x23 (!"#)
 
 //ASCII Codes
