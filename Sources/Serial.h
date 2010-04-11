@@ -5,13 +5,16 @@
 
 // Definiciones generales
 
-#define MOTOR_ID 0xF0    //valores que no estaran en las tramas para los variadores
+#define MOTOR_ID 0x21 //valores que no estaran en las tramas para los variadores 0x21 - 0x23 (!"#)
 
 //ASCII Codes
 #define  NULL          0
-#define  LF            10
+//#define  LF            10
+//#define  CR            13
+#define  LF            0x24     //testing value $
+#define  CR            0x25     //testing value %
+
 #define  SP            32
-#define  CR            13
 #define  AT            64   //@
 #define  QUESTION      63   //?
 #define  ANSWER        62   //>
@@ -24,11 +27,10 @@
 
 #define  CLEAR_SCREEN  12
 
-#define  IDLE     1
-#define  SELECTED 2
-#define  RX       4
-#define  TX       8
-
+#define  IDLE     0x01
+#define  SELECTED 0x02
+#define  RX       0x04
+#define  TX       0x08
 
 #define rxFlag  _events.BITS.bit0
 #define txFlag  _events.BITS.bit1
@@ -42,12 +44,11 @@
 extern unsigned char* config;
 extern unsigned char* question[17];
 
-
+                                                   
 // Prototipos de funciones
 
 
 void SCI_Init(void);
-void BorrarPantalla(void);
 void RecibirDato(void);
 void sendMessage(byte *message);
 void sendChar(byte character);
@@ -83,7 +84,7 @@ struct{
 
 }flagByte;
 
-flagByte _events,_status; 
-
+extern flagByte _events, _status; 
+extern byte j;
 
 #endif

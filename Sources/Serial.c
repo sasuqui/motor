@@ -8,7 +8,7 @@ extern unsigned char* question[17]="?D18 22\n\r";
 byte  j=0;                 
 byte  dato;   
 
-flagByte _events,_status; 
+flagByte _events, _status; 
 
 void SCI_Init(void){  //frecuencia reloj de bus 2.4576 MHz
   CONFIG2_SCIBDSRC=1; //usar el bus interno para la comunicacion serial
@@ -19,16 +19,12 @@ void SCI_Init(void){  //frecuencia reloj de bus 2.4576 MHz
   SCC2_TE=1;          //Habilita Tx
   SCC2_RE=1;          //Habilita Rx
   SCC2_SCRIE=1;       //HABILTA INTERRUPCION POR RECIBIR DATO
-  SCC2_SCTIE=1;       //habilita intrrupcion Tx
+  //SCC2_SCTIE=1;       //habilita intrrupcion Tx
+  
+  status=IDLE;
 
 }
 
-        
-
-void BorrarPantalla(void){
-  if(SCS1_SCTE==1)
-    SCDR=CLEAR_SCREEN;
-}
 
 interrupt VectorNumber_SCIReceive void SCI_Rx_Int(void){
 
@@ -39,15 +35,25 @@ interrupt VectorNumber_SCIReceive void SCI_Rx_Int(void){
 
 
 
-interrupt VectorNumber_SCITransmit void SCI_Int(void){
+interrupt VectorNumber_SCITransmit void SCI_Tx_Int(void){
 
   (void)SCS1;        //RECONOCE LA INTERRUPCION
-  if (Fifo_Get(&SCDR)==0)
-	  SCC2_SCTIE = 0;         
+  
+  //if ((Fifo_Get(&dato)==0)){
+  if ((Fifo_Get(&SCDR)==0)){
+  
+    SCC2_SCTIE = 0;
+    txFlag=1; //Tx complete 
+  }
+  /*else 
+  
+  SCDR=dato; */
 }
 
 
 void RecibirDato(void){
+ 
+ // sendChar(dato);
 
   switch (status){
   
@@ -55,20 +61,38 @@ void RecibirDato(void){
     
       if(dato==MOTOR_ID){
       
-        status=RX;
+        status=SELECTED;
         
       }
     
       break;
       
     case SELECTED:
-    
-      if(dato==READMOT){ //SENSE QUESTION
+             
+             
+      if(Fifo_Put(dato)){
+      
         
-        //queue enable variator response bit and timer at rx complete
         
-        (void)Fifo_Put(dato);
-        status=RX;
+        if(dato==READMOT){ //SENSE QUESTION
+          
+          //queue enable variator response bit and timer at rx complete
+          j=1;
+          status=RX;
+          
+        }else if(dato==CR){
+        
+          status=IDLE;
+          ENABLE_INT_TX();
+        }
+        
+        
+        
+      }else{
+      
+        Fifo_Init();
+        status=IDLE;
+      
         
       }
     
@@ -76,29 +100,36 @@ void RecibirDato(void){
       
     case RX:
     
-      Fifo_Put(dato);
-      
-      if(dato==CR){
-      
-        status=TX;
-        
-      }else{
-      
         //FEED FIFO
-        (void)Fifo_Put(dato);      
+        if(Fifo_Put(dato)){ 
+          
+          if(dato==CR){
+          
+            status=IDLE;
+            ENABLE_INT_TX();
+
+          }
         
-      }
-    
+        
+        }else{
+        
+          Fifo_Init();
+          status=IDLE;
+        
+        }
+        
+
       break;
-      
-    case TX:
-    
+
+    default:
       break;
   }
 
  
 }
 
+
+/*** DEPRECATED FUNTIONS ***/
 
 void sendChar(byte character){
   

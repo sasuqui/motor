@@ -35,7 +35,7 @@ byte Fifo_Put (byte c)
 		else
 			PutPtr++;
 		
-		ENABLE_INT_TX();    // Enable Interruptions of the TX
+		//ENABLE_INT_TX();    // Enable Interruptions of the TX
 		
 		return(1);	
 	}
@@ -44,7 +44,7 @@ byte Fifo_Put (byte c)
 // Function to take data from FIFO
 byte Fifo_Get (byte * DataPtr)	
 {
-	if ( PutPtr == GetPtr ) //Verify to erificar if the tail is empty
+	if ( PutPtr == GetPtr ) //Verify if the tail is empty
 		return(0);
 	else 
 	{
