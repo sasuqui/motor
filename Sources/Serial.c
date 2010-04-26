@@ -1,9 +1,8 @@
 #include "serial.h"
 #include "fifo.h"
 
-extern unsigned char* config="?D18 22\n\r"; //activa la comunicacion serian en el variador
-extern unsigned char* question[17]="?D18 22\n\r";
-
+extern unsigned char* config="?D18 22\n\r"; //activa la comunicacion serial en el variador
+//extern unsigned char* config="?D18 02\n\r"; //activa la comunicacion serial en el variador sin parada rapida
 
 byte  j=0;                 
 byte  dato;   
@@ -41,15 +40,13 @@ interrupt VectorNumber_SCITransmit void SCI_Tx_Int(void){
 
   (void)SCS1;        //RECONOCE LA INTERRUPCION
   
-  //if ((Fifo_Get(&dato)==0)){
+
   if ((Fifo_Get(&SCDR)==0)){
   
     SCC2_SCTIE = 0;
     txFlag=1; //Tx complete 
   }
-  /*else 
-  
-  SCDR=dato; */
+
 }
 
 
@@ -80,7 +77,7 @@ void RecibirDato(void){
           
           //queue enable variator response bit and timer at rx complete
           j=1;
-          status=RX;
+          //status=RX;
           
         }else if(dato==CR){
         
@@ -100,7 +97,7 @@ void RecibirDato(void){
     
       break;
       
-    case RX:
+ /*   case RX:
     
         //FEED FIFO
         if(Fifo_Put(dato)){ 
@@ -121,7 +118,7 @@ void RecibirDato(void){
         }
         
 
-      break;
+      break;  */
 
     default:
       break;
@@ -131,7 +128,7 @@ void RecibirDato(void){
 }
 
 
-/*** DEPRECATED FUNTIONS ***/
+/*** DEPRECATED FUNTIONS (polling) ***/
 
 void sendChar(byte character){
   
@@ -149,21 +146,3 @@ void sendMessage(byte *message){
  
 }
 
-/*void ReadBit(byte bit){
-
-}
-void ReadWord(byte wordNum) {
-  
-}
-void WriteBit(byte bit,byte value)  {
-  
-}
-void WriteWord(byte bit,byte value){
-}
-
-byte* ValueToAscii(int value){
-  
-}
-int   AsciiToValue(byte* string) {
-  
-}    */

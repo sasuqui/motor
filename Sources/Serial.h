@@ -10,7 +10,11 @@
 #define ENABLE_INT_RX() 	SCC2_SCRIE = 1
 #define DISABLE_INT_RX() 	SCC2_SCRIE = 0  
 
-#define MOTOR_ID 0x21 //valores que no estaran en las tramas para los variadores 0x21 - 0x23 (!"#)
+//ID de los motores,valores que no estaran en las tramas para los variadores 0x21 - 0x23 (!"#)
+#define MOTOR_ID 0x21 //motor 1
+//#define MOTOR_ID 0x22 //motor 2
+//#define MOTOR_ID 0x23 //motor 3
+
 
 //ASCII Codes
 #define  NULL          0
@@ -47,7 +51,6 @@
 
 /* Variables de uso en el main*/
 extern unsigned char* config;
-extern unsigned char* question[17];
 
                                                    
 // Prototipos de funciones

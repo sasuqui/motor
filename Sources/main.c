@@ -17,7 +17,7 @@ void PortInit(){
   
   DDRD = 0xC0;   //PTD7 as output
   DE = 0;        //disables DE pin at 75176
-  RE = 0;        //enables RE pin at 75176
+  RE = 1;        //enables RE pin at 75176
 }
 
 void main(void) {
@@ -29,6 +29,8 @@ void main(void) {
   SCI_Init();
   TimerInit();
   events=0;
+  
+  sendMessage(config);
 
   for(;;) {
   
@@ -45,7 +47,7 @@ void main(void) {
         if(j){
           j=0;
           DE=1;
-          RE=1;
+          RE=0;
           StartTimer();
         }
       }
@@ -54,7 +56,7 @@ void main(void) {
       
         timerOF=0;
         DE=0;
-        RE=0;
+        RE=1;
       
       }
       
