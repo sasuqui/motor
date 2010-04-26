@@ -23,14 +23,17 @@ void PortInit(){
 void main(void) {
 
   /* include your code here */
-
+  CONFIG1_COPD=1;       //disable watchdog
+  INTSCR1_IMASK1=1;     //disable IRQ, activate mask
+  
+  SCI_Init();
+  sendMessage(config);
+  
   PortInit();
   Fifo_Init();
-  SCI_Init();
+  
   TimerInit();
   events=0;
-  
-  sendMessage(config);
 
   for(;;) {
   

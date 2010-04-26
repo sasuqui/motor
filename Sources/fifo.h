@@ -5,5 +5,4 @@ void Fifo_Init(void);
 byte Fifo_Put(byte);
 byte Fifo_Get(byte *);
         
-
 #endif

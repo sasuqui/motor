@@ -18,10 +18,10 @@
 
 //ASCII Codes
 #define  NULL          0
-//#define  LF            10
-//#define  CR            13
-#define  LF            0x24     //testing value $
-#define  CR            0x25     //testing value %
+#define  LF            10
+#define  CR            13
+//#define  LF            0x24     //testing value $
+//#define  CR            0x25     //testing value %
 
 #define  SP            32
 #define  AT            64   //@

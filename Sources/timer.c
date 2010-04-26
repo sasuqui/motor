@@ -26,6 +26,7 @@ void interrupt VectorNumber_TIM1Ovr TIM1OV_ISR(void){
   T1SC_TOF=0;            
   
   timerOF=1;
+  T1SC_TSTOP = 1;
   T1SC_TRST = 1;      //resets and stops the timer counter
    
 }
