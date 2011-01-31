@@ -61,11 +61,7 @@ void RecibirDato(void);
 void sendMessage(byte *message);
 void sendChar(byte character);
 
-/*void ReadBit(byte bit);
-void ReadWord(byte wordNum);
-void WriteBit(byte bit,byte value);
-void WriteWord(byte bit,byte value);
-*/
+
 
 byte* ValueToAscii(int value);
 int   AsciiToValue(byte* string);
